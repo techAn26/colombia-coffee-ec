@@ -75,6 +75,8 @@ profiles ← Supabase Auth (1:1)
 | farm_name | text | | 農園名 |
 | farm_story | text | | 農園のストーリー |
 | roast_level | text | NOT NULL | 焙煎度（light / medium / dark） |
+| process | text | | 精製方法（washed / natural / honey など） |
+| altitude | text | | 標高（例: 1,600-1,900m） |
 | flavor_notes | text[] | | フレーバーノート（例: ['チョコレート', 'ナッツ', '柑橘']） |
 | image_url | text | | メイン画像URL |
 | is_published | boolean | NOT NULL, DEFAULT false | 公開/非公開 |
