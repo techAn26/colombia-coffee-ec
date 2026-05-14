@@ -7,9 +7,10 @@ import type { User } from "@supabase/supabase-js";
 
 interface HeaderAuthProps {
   user: User | null;
+  isAdmin?: boolean;
 }
 
-export function HeaderAuth({ user }: HeaderAuthProps) {
+export function HeaderAuth({ user, isAdmin }: HeaderAuthProps) {
   const router = useRouter();
 
   if (!user) {
@@ -27,6 +28,14 @@ export function HeaderAuth({ user }: HeaderAuthProps) {
 
   return (
     <div className="flex items-center gap-3">
+      {isAdmin && (
+        <a
+          href="/admin"
+          className="text-muted-foreground hover:text-foreground"
+        >
+          管理画面
+        </a>
+      )}
       <a
         href="/mypage"
         className="text-muted-foreground hover:text-foreground"

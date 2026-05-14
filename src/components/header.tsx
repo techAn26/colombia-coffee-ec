@@ -8,6 +8,16 @@ export async function Header() {
     data: { user },
   } = await supabase.auth.getUser();
 
+  let isAdmin = false;
+  if (user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+    isAdmin = profile?.role === "admin";
+  }
+
   return (
     <header className="border-b px-6 py-4 flex items-center justify-between">
       <Link href="/" className="text-xl font-bold tracking-tight">
@@ -28,7 +38,7 @@ export async function Header() {
             カート
           </Link>
         )}
-        <HeaderAuth user={user} />
+        <HeaderAuth user={user} isAdmin={isAdmin} />
       </nav>
     </header>
   );
