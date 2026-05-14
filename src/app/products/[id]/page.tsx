@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getProduct, getRoastLabel } from "@/lib/products";
-import { buttonVariants } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { createClient } from "@/lib/supabase/server";
+import { AddToCart } from "@/components/add-to-cart";
 
 export default async function ProductDetailPage({
   params,
@@ -15,6 +15,11 @@ export default async function ProductDetailPage({
   if (!product) {
     notFound();
   }
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const variants = product.product_variants.sort(
     (a, b) => a.sort_order - b.sort_order
@@ -106,45 +111,12 @@ export default async function ProductDetailPage({
             </div>
           )}
 
-          {/* バリエーション・価格 */}
+          {/* バリエーション選択・カートに入れる */}
           <div className="space-y-2">
             <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-              容量・価格
+              容量を選んでカートに入れる
             </h2>
-            <div className="space-y-2">
-              {variants.map((variant) => (
-                <Card key={variant.id}>
-                  <CardContent className="flex items-center justify-between py-3 px-4">
-                    <div>
-                      <span className="font-medium">{variant.label}</span>
-                      {variant.stock <= 0 && (
-                        <span className="ml-2 text-xs text-destructive">
-                          品切れ
-                        </span>
-                      )}
-                      {variant.stock > 0 && variant.stock <= 5 && (
-                        <span className="ml-2 text-xs text-orange-600">
-                          残り{variant.stock}点
-                        </span>
-                      )}
-                    </div>
-                    <span className="text-lg font-bold">
-                      ¥{variant.price.toLocaleString()}
-                    </span>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-
-          {/* カートに入れるボタン（後のChapterで実装） */}
-          <div className="pt-2">
-            <Link
-              href="/login"
-              className={buttonVariants({ size: "lg" }) + " w-full"}
-            >
-              カートに入れる
-            </Link>
+            <AddToCart variants={variants} isLoggedIn={!!user} />
           </div>
         </div>
       </div>
