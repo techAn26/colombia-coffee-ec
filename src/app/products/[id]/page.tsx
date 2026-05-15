@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getProduct, getRoastLabel } from "@/lib/products";
 import { createClient } from "@/lib/supabase/server";
 import { AddToCart } from "@/components/add-to-cart";
+import { ReviewSection } from "@/components/review-section";
 
 export default async function ProductDetailPage({
   params,
@@ -135,13 +136,8 @@ export default async function ProductDetailPage({
         </section>
       )}
 
-      {/* レビュー（後のChapterで実装） */}
-      <section className="mt-12">
-        <h2 className="text-xl font-bold mb-4">レビュー</h2>
-        <p className="text-muted-foreground">
-          まだレビューがありません。
-        </p>
-      </section>
+      {/* レビュー */}
+      <ReviewSection productId={product.id} />
     </div>
   );
 }
