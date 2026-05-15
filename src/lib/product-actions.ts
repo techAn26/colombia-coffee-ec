@@ -14,6 +14,7 @@ export type ProductFormData = {
   process: string;
   altitude: string;
   flavor_notes_text: string; // カンマ区切り
+  image_url: string | null;
   is_published: boolean;
   category_id: string | null;
   variants: {
@@ -46,6 +47,7 @@ export async function createProduct(data: ProductFormData) {
       process: data.process || null,
       altitude: data.altitude || null,
       flavor_notes: flavorNotes.length > 0 ? flavorNotes : null,
+      image_url: data.image_url,
       is_published: data.is_published,
       category_id: data.category_id,
     })
@@ -95,6 +97,7 @@ export async function updateProduct(productId: string, data: ProductFormData) {
       roast_level: data.roast_level,
       process: data.process || null,
       altitude: data.altitude || null,
+      image_url: data.image_url,
       flavor_notes: flavorNotes.length > 0 ? flavorNotes : null,
       is_published: data.is_published,
       category_id: data.category_id,

@@ -11,6 +11,7 @@ import {
   updateProduct,
   type ProductFormData,
 } from "@/lib/product-actions";
+import { ImageUpload } from "@/components/image-upload";
 
 type VariantInput = {
   id?: string;
@@ -34,6 +35,7 @@ interface ProductFormProps {
     process: string;
     altitude: string;
     flavor_notes: string[];
+    image_url: string | null;
     is_published: boolean;
     category_id: string | null;
     variants: {
@@ -55,6 +57,9 @@ export function ProductForm({
   categoryId,
 }: ProductFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string | null>(
+    defaultValues?.image_url ?? null
+  );
   const [variants, setVariants] = useState<VariantInput[]>(
     defaultValues?.variants.map((v) => ({
       id: v.id,
@@ -112,6 +117,7 @@ export function ProductForm({
       process: formData.get("process") as string,
       altitude: formData.get("altitude") as string,
       flavor_notes_text: formData.get("flavor_notes_text") as string,
+      image_url: imageUrl,
       is_published: formData.get("is_published") === "on",
       category_id: categoryId,
       variants: variants
@@ -139,6 +145,20 @@ export function ProductForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* 商品画像 */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">商品画像</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ImageUpload
+            currentImageUrl={imageUrl}
+            productId={productId ?? "new"}
+            onUploaded={(url) => setImageUrl(url)}
+          />
+        </CardContent>
+      </Card>
+
       {/* 基本情報 */}
       <Card>
         <CardHeader>

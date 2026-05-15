@@ -69,6 +69,7 @@ export default async function EditProductPage({
           process: product.process ?? "",
           altitude: product.altitude ?? "",
           flavor_notes: product.flavor_notes ?? [],
+          image_url: product.image_url ?? null,
           is_published: product.is_published,
           category_id: product.category_id,
           variants,
