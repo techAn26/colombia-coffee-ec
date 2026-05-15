@@ -150,6 +150,23 @@ export async function deleteProduct(productId: string) {
 }
 
 /**
+ * バリエーションの在庫数を個別更新（管理者用）
+ */
+export async function updateVariantStock(variantId: string, stock: number) {
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from("product_variants")
+    .update({ stock })
+    .eq("id", variantId);
+
+  if (error) throw error;
+
+  revalidatePath("/admin/products");
+  revalidatePath("/products");
+}
+
+/**
  * 管理者用: 全商品一覧（非公開含む）
  */
 export async function getAdminProducts() {
