@@ -13,10 +13,27 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+
 export const metadata: Metadata = {
-  title: "Colombia Coffee | コロンビア スペシャリティコーヒー",
+  title: {
+    default: "Colombia Coffee | コロンビア スペシャリティコーヒー",
+    template: "%s | Colombia Coffee",
+  },
   description:
-    "コロンビアの農園から届くスペシャリティコーヒー豆。生産者の顔が見える、こだわりの一杯を。",
+    "コロンビアの農園から届くスペシャリティコーヒー豆。生産者の顔が見える、こだわりの一杯を。産地・焙煎度・フレーバーで、あなただけの一杯を見つけてください。",
+  metadataBase: new URL(siteUrl),
+  openGraph: {
+    type: "website",
+    locale: "ja_JP",
+    siteName: "Colombia Coffee",
+    title: "Colombia Coffee | コロンビア スペシャリティコーヒー",
+    description:
+      "コロンビアの農園から届くスペシャリティコーヒー豆。生産者の顔が見える、こだわりの一杯を。",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({

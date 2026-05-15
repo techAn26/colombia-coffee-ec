@@ -1,9 +1,35 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getProduct, getRoastLabel } from "@/lib/products";
 import { createClient } from "@/lib/supabase/server";
 import { AddToCart } from "@/components/add-to-cart";
 import { ReviewSection } from "@/components/review-section";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const product = await getProduct(id);
+
+  if (!product) {
+    return { title: "商品が見つかりません" };
+  }
+
+  const description = `${product.origin}産 ${getRoastLabel(product.roast_level)} | ${product.description.slice(0, 120)}`;
+
+  return {
+    title: product.name,
+    description,
+    openGraph: {
+      title: product.name,
+      description,
+      images: product.image_url ? [product.image_url] : undefined,
+    },
+  };
+}
 
 export default async function ProductDetailPage({
   params,
