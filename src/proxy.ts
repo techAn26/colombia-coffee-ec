@@ -10,7 +10,7 @@ const ADMIN_PATHS = ["/admin"];
 // ログイン済みの場合にリダイレクトするパス
 const AUTH_PATHS = ["/login"];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
   });

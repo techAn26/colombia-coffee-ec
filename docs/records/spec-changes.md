@@ -11,6 +11,7 @@
 |---|------|------|---------|------|
 | 1 | 2026-05-14 | products テーブル | `process`（精製方法）と `altitude`（標高）カラムを追加 | スペシャリティコーヒーでは精製方法・標高は品質を左右する重要情報。商品詳細ページでの表示に必要 |
 | 2 | 2026-05-14 | LINEログイン | ネイティブOAuthではなくThird-party Auth（カスタムOIDC）で実装 | SupabaseがLINEをネイティブサポートしていないため。設定手順は `line-login-setup.md` に記録 |
+| 3 | 2026-05-15 | middleware→proxy | `middleware.ts` を `proxy.ts` にリネーム | Next.js 16でMiddlewareがProxyにリネームされたため。機能変更なし |
 
 ---
 
