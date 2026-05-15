@@ -1,3 +1,6 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 
 export type Profile = {
@@ -35,4 +38,29 @@ export async function getCurrentProfile(): Promise<Profile | null> {
 export async function isCurrentUserAdmin(): Promise<boolean> {
   const profile = await getCurrentProfile();
   return profile?.role === "admin";
+}
+
+/**
+ * プロフィールを更新する
+ */
+export async function updateProfile(data: { name: string; avatar_url?: string }) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) throw new Error("ログインが必要です");
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({
+      name: data.name,
+      avatar_url: data.avatar_url || null,
+    })
+    .eq("id", user.id);
+
+  if (error) throw error;
+
+  revalidatePath("/mypage/profile");
+  revalidatePath("/mypage");
 }
