@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { HeaderAuth } from "@/components/header-auth";
+import { MobileMenu } from "@/components/mobile-menu";
 
 export async function Header() {
   const supabase = await createClient();
@@ -23,7 +24,7 @@ export async function Header() {
       <Link href="/" className="text-xl font-bold tracking-tight">
         Colombia Coffee
       </Link>
-      <nav className="flex gap-4 text-sm items-center">
+      <nav className="hidden md:flex gap-4 text-sm items-center">
         <Link
           href="/products"
           className="text-muted-foreground hover:text-foreground"
@@ -40,6 +41,9 @@ export async function Header() {
         )}
         <HeaderAuth user={user} isAdmin={isAdmin} />
       </nav>
+      <div className="md:hidden">
+        <MobileMenu user={user} isAdmin={isAdmin} />
+      </div>
     </header>
   );
 }
